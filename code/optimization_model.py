@@ -6,8 +6,9 @@ import os
 
 class LinearOptimization:
 
-    def __init__(self, results_dictionary):
+    def __init__(self, results_dictionary, available_to_invest):
         self.results_dictionary = results_dictionary
+        self.available_to_invest = available_to_invest
 
     def create_data(self):
 
@@ -52,19 +53,18 @@ class LinearOptimization:
         return sum(model.purchase_quantity[stock] * model.current_price_param[stock] * model.sharpe_ratio_param[stock]
                    for stock in model.stock_set)
 
-    @staticmethod
-    def constraint_max_single_asset(model, stock):
+    def constraint_max_single_asset(self, model, stock):
         """
         Establish a min diversity threshold
         """
-        return model.purchase_quantity[stock] * model.current_price_param[stock] <= 1000
+        return model.purchase_quantity[stock] * model.current_price_param[stock] <= self.available_to_invest/3
 
-    @staticmethod
-    def constraint_total_purchase_power(model):
+    def constraint_total_purchase_power(self, model):
         """
         We only have a certain amount of capital for investing
         """
-        return sum(model.purchase_quantity[stock] * model.current_price_param[stock] for stock in model.stock_set) <= 5000
+        return sum(model.purchase_quantity[stock] * model.current_price_param[stock] for
+                   stock in model.stock_set) <= self.available_to_invest
 
     def create_abstract_model(self):
 

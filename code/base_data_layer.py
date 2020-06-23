@@ -4,6 +4,7 @@ import pickle
 import logging
 import os
 import tempfile as tmp
+import csv
 
 
 class DataLayer:
@@ -14,7 +15,6 @@ class DataLayer:
         :param start: datetime, the start date we are pulling the timeseries for
         :param end: datetime, the end date we are pulling the timeseries for
         """
-        self.ticker_path = pd.read_csv('SP500.csv')['SYMBOL']
         self.results_data_path = tmp.mkdtemp(prefix='master_results')
         self.tickers = self.load_sp500_tickers()
         self.stock_dict = self.pull_stock_data(run_type, start, end)
@@ -28,8 +28,11 @@ class DataLayer:
         :return: sp_500: list, tickers of the S&P 500
         '''
 
-        sp_500 = pd.read_csv(self.ticker_path, header=0)['Symbol']
-        return sp_500
+        stocks = pd.read_csv(os.path.join(os.path.dirname(__file__), 'SP500.csv'))
+        stocks.columns = stocks.columns.str.upper().str.replace(' ', '_')
+        tickers = stocks['SYMBOL']
+
+        return tickers
 
     def pull_stock_data(self, run_type, start, end):
         '''

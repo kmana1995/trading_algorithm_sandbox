@@ -40,7 +40,7 @@ def mp_handler(data, n_cores=4):
         path.close()
 
     # optimize
-    optimization = optimization_model.LinearOptimization(results_dictionary)
+    optimization = optimization_model.LinearOptimization(results_dictionary, available_to_invest=5000)
     optimal_buys = optimization.run_optimization()
     print('Optimal buys and bounds on five day horizon for SP500 are:')
     print(optimal_buys)
