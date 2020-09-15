@@ -11,7 +11,7 @@ Running the master_run.py file will run the entire program, consisting of:
       c. A metric called "Cointegration Score", which is the residual set of every cointegrated pair between the asset and the sp500<br>
       d. Average Returns (30, 15, 5 day)<br><br>
   3. Fitting a classifier ensemble on the data<br>
-  4. Predicting the class and the current volatility of an asset<br>
+  4. Predicting the class and the current volatility of an asset using ensembling based on either LOOCV or K-folds validation<br>
   5. Setting the upper, lower, and horizontal bounds of a potential buy<br>
   6. Running an LP to determine the optimal buy portfolio<br>
   
